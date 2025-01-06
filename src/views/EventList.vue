@@ -1,9 +1,9 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import EventCard from "@/components/EventCard.vue";
 import EventService from "@/services/EventService.js";
-import { onMounted, ref } from "vue";
 
-const events = ref("");
+const events = ref(null);
 
 onMounted(() => {
   EventService.getEvents()
@@ -17,7 +17,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Events for Good</h1>
+  <h1>Events For Good</h1>
   <div class="events">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
   </div>

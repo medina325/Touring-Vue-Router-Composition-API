@@ -1,26 +1,39 @@
 <script setup>
-import EventService from "@/services/EventService.js";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
+import EventService from "../services/EventService";
 
-const props = defineProps(["id"]);
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+});
 
-const event = ref("");
-const id = computed(() => props.id);
-onMounted(() => {
-  EventService.getEvent(id.value)
-    .then((response) => {
-      event.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const event = ref({});
+
+onMounted(async () => {
+  try {
+    const response = await EventService.getEvent(props.id);
+    event.value = response.data;
+    console.log(event.value);
+  } catch (err) {
+    console.log(err);
+  }
 });
 </script>
 
 <template>
-  <div v-if="event">
+  <div class="event-card">
     <h1>{{ event.title }}</h1>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-    <p>{{ event.description }}</p>
+    <span>{{ event.time }} on {{ event.date }} @ {{ event.location }}</span>
+    <span>{{ event.description }}</span>
   </div>
 </template>
+
+<style scoped>
+.event-card {
+  display: flex;
+  flex-direction: column;
+  line-height: 2rem;
+}
+</style>
