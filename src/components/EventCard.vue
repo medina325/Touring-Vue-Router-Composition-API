@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <RouterLink
-    class="event-link"
+    class="link"
     :to="{ name: 'event-details', params: { id: event.id } }"
   >
     <div class="event-card">
@@ -30,9 +30,5 @@ defineProps({
 .event-card:hover {
   transform: scale(1.01);
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
-}
-.event-link {
-  text-decoration: none;
-  color: inherit;
 }
 </style>
