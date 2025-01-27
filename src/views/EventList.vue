@@ -54,6 +54,22 @@ onMounted(() => {
       >
         <button class="pagination-btn">&lt</button>
       </RouterLink>
+
+      <RouterLink
+        v-for="n in Math.ceil(totalEventsCount / limit)"
+        :key="n"
+        class="link"
+        rel="next"
+        :to="{ name: 'event-list', query: { page: n, limit } }"
+      >
+        <button
+          :class="{ 'pagination-btn-current-page': n === page }"
+          class="pagination-btn"
+        >
+          {{ n }}
+        </button>
+      </RouterLink>
+
       <RouterLink
         class="link"
         :style="{ visibility: isLastPage ? 'hidden' : 'visible' }"
@@ -89,6 +105,7 @@ onMounted(() => {
   color: inherit;
   background: none;
   border: none;
+  border-radius: 15px;
   font-size: 18px;
   transition: all 0.2s ease;
 }
@@ -99,5 +116,10 @@ onMounted(() => {
 
 .pagination-btn:active {
   transform: scale(0.95);
+}
+
+.pagination-btn-current-page {
+  color: hsl(0, 0%, 100%);
+  background-color: #42b983;
 }
 </style>
