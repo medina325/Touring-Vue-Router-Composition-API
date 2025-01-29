@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import EventListView from "../views/EventList.vue";
-import AboutView from "../views/About.vue";
-import EventDetailsView from "../views/EventDetails.vue";
-import NotFound from "../components/NotFound.vue";
+import EventListView from "@/views/EventList.vue";
+import AboutView from "@/views/About.vue";
+import EventLayout from "@/views/events/Layout.vue";
+import EventDetailsView from "@/views/events/Details.vue";
+import EventRegisterView from "@/views/events/Register.vue";
+import EventEditView from "@/views/events/Edit.vue";
+import NotFound from "@/components/NotFound.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,9 +21,26 @@ const router = createRouter({
     },
     {
       path: "/events/:id",
-      name: "event-details",
+      name: "event-layout",
       props: true,
-      component: EventDetailsView,
+      component: EventLayout,
+      children: [
+        {
+          path: "",
+          name: "event-details",
+          component: EventDetailsView,
+        },
+        {
+          path: "register",
+          name: "event-register",
+          component: EventRegisterView,
+        },
+        {
+          path: "edit",
+          name: "event-edit",
+          component: EventEditView,
+        },
+      ],
     },
     {
       path: "/about",
