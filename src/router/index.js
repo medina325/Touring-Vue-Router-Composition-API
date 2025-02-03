@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import EventListView from "@/views/EventList.vue";
+import ListView from "@/views/events/List.vue";
 import AboutView from "@/views/About.vue";
 import EventLayout from "@/views/events/Layout.vue";
 import EventDetailsView from "@/views/events/Details.vue";
 import EventRegisterView from "@/views/events/Register.vue";
 import EventEditView from "@/views/events/Edit.vue";
-import NotFound from "@/components/NotFound.vue";
+import NotFoundView from "@/views/NotFound.vue";
+import NetworkErrorView from "@/views/NetworkError.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +18,7 @@ const router = createRouter({
         page: parseInt(router.query.page) || 1,
         limit: parseInt(router.query.limit) || 4,
       }),
-      component: EventListView,
+      component: ListView,
     },
     {
       path: "/events/:id",
@@ -48,16 +49,27 @@ const router = createRouter({
       component: AboutView,
     },
     {
-      path: "/:pathMatch(.*)*",
+      path: "/network-error",
+      name: "network-error",
+      component: NetworkErrorView,
+    },
+    {
+      path: "/404/:resource",
+      name: "not-found-resource",
+      component: NotFoundView,
+      props: true,
+    },
+    {
+      path: "/:catchAll(.*)*",
       name: "not-found",
-      component: NotFound,
+      component: NotFoundView,
     },
   ],
 });
 
 router.resolve({
   name: "not-found",
-  params: { pathMatch: ["not", "found"] },
+  params: { catchAll: ["not", "found"] },
 }).href;
 
 export default router;
