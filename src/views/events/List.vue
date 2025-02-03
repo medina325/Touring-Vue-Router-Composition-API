@@ -46,16 +46,16 @@ onMounted(() => {
   </div>
   <div class="pagination-container">
     <div class="pagination-buttons">
-      <RouterLink
+      <router-link
         class="link"
         :style="{ visibility: isFirstPage ? 'hidden' : 'visible' }"
         rel="prev"
         :to="{ name: 'event-list', query: { page: page - 1, limit } }"
       >
         <button class="pagination-btn">&lt</button>
-      </RouterLink>
+      </router-link>
 
-      <RouterLink
+      <router-link
         v-for="n in Math.ceil(totalEventsCount / limit)"
         :key="n"
         class="link"
@@ -68,16 +68,16 @@ onMounted(() => {
         >
           {{ n }}
         </button>
-      </RouterLink>
+      </router-link>
 
-      <RouterLink
+      <router-link
         class="link"
         :style="{ visibility: isLastPage ? 'hidden' : 'visible' }"
         rel="next"
         :to="{ name: 'event-list', query: { page: page + 1, limit } }"
       >
         <button class="pagination-btn">&gt</button>
-      </RouterLink>
+      </router-link>
     </div>
   </div>
 </template>

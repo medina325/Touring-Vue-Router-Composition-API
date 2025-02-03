@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import router from "@/router/index.js";
 import EventService from "@/services/EventService";
 
 const props = defineProps({
@@ -15,9 +16,15 @@ onMounted(async () => {
   try {
     const response = await EventService.getEvent(props.id);
     event.value = response.data;
-    console.log(event.value);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    if (error.response && error.response.status == 404) {
+      router.push({
+        name: "not-found-resource",
+        params: { resource: "o evento" },
+      });
+      return;
+    }
+    router.push({ name: "network-error" });
   }
 });
 </script>
@@ -26,11 +33,17 @@ onMounted(async () => {
   <div class="event-card">
     <h1>{{ event.title }}</h1>
     <div>
-      <router-link :to="{ name: 'event-details', params: { id: props.id } }">Details</router-link>
+      <router-link :to="{ name: 'event-details', params: { id: props.id } }"
+        >Details</router-link
+      >
       |
-      <router-link :to="{ name: 'event-register', params: { id: props.id } }">Register</router-link>
+      <router-link :to="{ name: 'event-register', params: { id: props.id } }"
+        >Register</router-link
+      >
       |
-      <router-link :to="{ name: 'event-edit', params: { id: props.id } }">Edit</router-link>
+      <router-link :to="{ name: 'event-edit', params: { id: props.id } }"
+        >Edit</router-link
+      >
     </div>
     <router-view :event="event"></router-view>
   </div>
