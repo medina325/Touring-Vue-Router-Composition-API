@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import EventService from "@/services/EventService";
+import { inject } from "vue";
+import router from "../../router";
 
 const props = defineProps({
   event: {
@@ -8,8 +8,26 @@ const props = defineProps({
     required: true,
   },
 });
+
+const GStore = inject("GStore");
+
+const register = () => {
+  // Call to API
+  GStore.flashMessage = `You are successfully registered for the event ${props.event.title}`;
+  setTimeout(() => {
+    GStore.flashMessage = "";
+  }, 3000);
+  router.push({
+    name: "event-details",
+    params: { id: props.event.id },
+  });
+};
 </script>
 
 <template>
-  <span>Register the event at {{ event.time }} on {{ event.date }} @ {{ event.location }}</span>
+  <p>
+    Register the event at {{ event.time }} on {{ event.date }} @
+    {{ event.location }}
+  </p>
+  <button @click="register">Register</button>
 </template>

@@ -51,8 +51,6 @@ onMounted(async () => {
 
 <style scoped>
 .event-card {
-  display: flex;
-  flex-direction: column;
   line-height: 2rem;
 }
 a {
